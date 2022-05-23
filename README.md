@@ -52,7 +52,6 @@ Now:
 git clone git@github.com:EdgarTec97/PubSub-NodeJS-Fastify.git
 cd PubSub-NodeJS-Fastify
 yarn
-docker-compose up -d
 ```
 
 You are now good ready to go!! 👯
