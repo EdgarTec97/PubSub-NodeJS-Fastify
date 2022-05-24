@@ -10,14 +10,14 @@ export class PubSubClass implements IEventBus {
     this.google = config.CLOUD.google;
 
     this.pubSubClient = new PubSub(/*{
-      projectId: google.projectId,
+      projectId: this.google.projectId,
       credentials: {
-        private_key: google.key,
-        client_email: google.email,
+        private_key: this.google.key,
+        client_email: this.google.email,
       },
     }*/);
 
-    this.subscribe(<string>this.google.topic, this.subscription);
+    this.subscribe(<string>this.google.topic, this.handler);
   }
 
   public publish(topicName: string, message: string): Promise<string> {
@@ -29,8 +29,9 @@ export class PubSubClass implements IEventBus {
     callback: (message: any) => void
   ): Promise<void> {
     const subscriptionName = <string>this.google.subscription;
+    const isSubscription = await this.doesSubscriptionExist(subscriptionName);
 
-    if (!this.doesSubscriptionExist(subscriptionName))
+    if (!isSubscription)
       await this.pubSubClient
         .topic(topicName)
         .createSubscription(subscriptionName);
@@ -40,7 +41,7 @@ export class PubSubClass implements IEventBus {
     subscription.on(`message`, callback);
   }
 
-  private subscription(message: any) {
+  private handler(message: any) {
     console.info(`####################################################
     \nReceived message: ${message.id}
     \nData: ${message.data}
@@ -54,9 +55,10 @@ export class PubSubClass implements IEventBus {
     subscriptionName: string
   ): Promise<boolean> {
     const subscriptions = await this.pubSubClient.getSubscriptions();
-    const subscriptionExist = subscriptions.find(
-      (sub: any) => sub.name === subscriptionName
+    const subscriptionExist = subscriptions.find((sub: any) =>
+      sub[0].name.includes(subscriptionName)
     );
+
     return <boolean>(subscriptions && subscriptionExist);
   }
 
