@@ -11,6 +11,6 @@ export class ExampleUseCase extends UseCase<any, string> {
   }
 
   async execute(data: any): Promise<string> {
-    return await this.eventService.publish(data.attributes);
+    return await this.eventService.publish(data);
   }
 }

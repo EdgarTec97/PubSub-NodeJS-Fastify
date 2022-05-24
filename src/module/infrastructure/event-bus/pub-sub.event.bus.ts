@@ -1,4 +1,4 @@
-import { PubSub } from "@google-cloud/pubsub";
+import { PubSub, Message } from "@google-cloud/pubsub";
 import { IEventBus } from "../../domain/event-bus/event.bus";
 import config from "../config/config";
 
@@ -21,7 +21,9 @@ export class PubSubClass implements IEventBus {
   }
 
   public publish(topicName: string, message: string): Promise<string> {
-    return this.pubSubClient.topic(topicName).publish(Buffer.from(message));
+    return this.pubSubClient.topic(topicName).publishMessage({
+      data: Buffer.from(message),
+    });
   }
 
   public async subscribe(
@@ -41,7 +43,7 @@ export class PubSubClass implements IEventBus {
     subscription.on(`message`, callback);
   }
 
-  private handler(message: any) {
+  private handler(message: Message) {
     console.info(`####################################################
     \nReceived message: ${message.id}
     \nData: ${message.data}

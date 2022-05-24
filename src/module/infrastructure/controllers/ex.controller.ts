@@ -19,7 +19,7 @@ export class ExampleController extends BaseController<Request, Response> {
   static async execute(message: any): Promise<string> {
     const messageId = await ExampleUseCase.Create(
       ExampleController.eventService
-    ).execute(message.data);
+    ).execute(message);
 
     return messageId;
   }
