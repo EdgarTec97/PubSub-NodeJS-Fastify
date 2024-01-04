@@ -62,7 +62,7 @@ export class KafkaEventBussClass implements IEventBus {
       await this.consumer.subscribe({ topic });
 
       await this.consumer.run({
-        eachMessage: async ({ message }) => {
+        eachMessage: async ({ message, topic: top }) => {
           const result = JSON.parse(message?.value?.toString() || "{}");
           if (result?.data?.[0]?.ticket)
             result.data[0].ticket = `${result.data[0].ticket?.substring(
@@ -71,7 +71,7 @@ export class KafkaEventBussClass implements IEventBus {
             )}...`;
 
           console.log(
-            `####### ####### ${topic} ####### ####### `,
+            `####### ####### ${top} ####### ####### `,
             Buffer.byteLength(message.value?.toString() || "", "utf-8"),
             result
           );
