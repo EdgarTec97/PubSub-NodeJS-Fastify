@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PubSubClass } from "@/module/infrastructure/event-bus/pub-sub.event.bus";
+import { KafkaEventBussClass } from "@/module/infrastructure/event-bus/kafka.event-bus";
 import { IEventBus } from "@/module/domain/event-bus/event.bus";
 import { ProducerService } from "@/module/infrastructure/services/producer.service";
 import { IEventService } from "@/module/domain/services/event.service";
@@ -7,9 +8,9 @@ import { BaseController } from "@/module/domain/controllers/base.controller";
 import { ExampleUseCase } from "@/module/application/use-cases/ex.use.case";
 
 export class ExampleController extends BaseController<Request, Response> {
-  private static pubSub: IEventBus = new PubSubClass();
+  private static eventBus: IEventBus = new KafkaEventBussClass();
   private static eventService: IEventService = new ProducerService(
-    ExampleController.pubSub
+    ExampleController.eventBus
   );
 
   private constructor() {

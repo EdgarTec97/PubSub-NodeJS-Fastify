@@ -17,4 +17,15 @@ export default {
       subscription: process.env.GOOGLE_SUBSCRIPTION,
     },
   },
+  KAFKA: {
+    clientId: process.env.KAFKA_CLIENT_ID!,
+    topic_consumer: process.env.KAFKA_TOPIC_CONSUMER!,
+    topic_producer: process.env.KAFKA_TOPIC_PRODUCER!,
+    brokers: process.env.KAFKA_BROKERS!,
+    prefix: process.env.KAFKA_PREFIX!,
+    groupId: process.env.KAFKA_GROUP_ID!,
+    trustedCert: "",
+    clientCert: "",
+    clientCertKey: "",
+  },
 };
