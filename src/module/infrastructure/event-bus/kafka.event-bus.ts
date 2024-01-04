@@ -12,7 +12,7 @@ export class KafkaEventBussClass implements IEventBus {
     this.config = config.KAFKA;
 
     this.connection = new Kafka({
-      //clientId: this.config.clientId,
+      clientId: this.config.clientId,
       brokers: this.config.brokers
         .split(",")
         .map((host: any) => host.replace("kafka+ssl://", "")),
@@ -50,7 +50,7 @@ export class KafkaEventBussClass implements IEventBus {
           },
         ],
       })
-      .catch((e) => [{ message: "PERRA" }]);
+      .catch((e) => [{ message: e }]);
 
     return JSON.stringify(data[0]);
   }
@@ -58,18 +58,25 @@ export class KafkaEventBussClass implements IEventBus {
   public async subscribe(topicName: string): Promise<void> {
     await this.consumer.connect();
 
-    await this.consumer.subscribe({ topic: topicName });
+    topicName.split(",").forEach(async (topic) => {
+      await this.consumer.subscribe({ topic });
 
-    await this.consumer.run({
-      eachMessage: async ({ partition, message }) => {
-        console.log({
-          partition,
-          offset: message.offset,
-          key: message.key?.toString(),
-          message: "############ MESSAGE #############",
-          value: message?.value?.toString() || "#### MESSAGE #####",
-        });
-      },
+      await this.consumer.run({
+        eachMessage: async ({ message }) => {
+          const result = JSON.parse(message?.value?.toString() || "{}");
+          if (result?.data?.[0]?.ticket)
+            result.data[0].ticket = `${result.data[0].ticket?.substring(
+              0,
+              10
+            )}...`;
+
+          console.log(
+            `####### ####### ${topic} ####### ####### `,
+            Buffer.byteLength(message.value?.toString() || "", "utf-8"),
+            result
+          );
+        },
+      });
     });
   }
 }

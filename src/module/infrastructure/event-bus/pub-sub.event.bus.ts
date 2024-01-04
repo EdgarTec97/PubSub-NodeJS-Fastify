@@ -32,7 +32,7 @@ export class PubSubClass implements IEventBus {
     topicName: string,
     callback: (message: any) => void
   ): Promise<void> {
-    const subscriptionName = <string>this.google.subscription;
+    const subscriptionName = <string>this.google.subscription?.split(",")[0];
     /* const isSubscription = await this.doesSubscriptionExist(subscriptionName);
 
     if (!isSubscription)

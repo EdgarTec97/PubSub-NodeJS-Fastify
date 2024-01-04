@@ -29,7 +29,7 @@ export class ExampleRouterFastify implements IRouters<Array<route>> {
           const body: any = req.body;
           const messageId = await ExampleController.execute(body.message);
 
-          rep.status(200).send(body);
+          rep.status(200).send({ messageId });
         },
       },
     ];
