@@ -1,6 +1,6 @@
 import { PubSub, Message } from "@google-cloud/pubsub";
-import { IEventBus } from "../../domain/event-bus/event.bus";
-import config from "../config/config";
+import { IEventBus } from "@/module/domain/event-bus/event.bus";
+import config from "@/module/infrastructure/config/config";
 
 export class PubSubClass implements IEventBus {
   private pubSubClient: PubSub;
@@ -9,13 +9,15 @@ export class PubSubClass implements IEventBus {
   constructor() {
     this.google = config.CLOUD.google;
 
-    this.pubSubClient = new PubSub(/*{
+    this.pubSubClient = new PubSub({
       projectId: this.google.projectId,
       credentials: {
-        private_key: this.google.key,
+        type: this.google.credentialType,
+        private_key: this.google.privateKey,
         client_email: this.google.email,
+        client_id: this.google.clientId,
       },
-    }*/);
+    });
 
     this.subscribe(<string>this.google.topic, this.handler);
   }
@@ -31,12 +33,12 @@ export class PubSubClass implements IEventBus {
     callback: (message: any) => void
   ): Promise<void> {
     const subscriptionName = <string>this.google.subscription;
-    const isSubscription = await this.doesSubscriptionExist(subscriptionName);
+    /* const isSubscription = await this.doesSubscriptionExist(subscriptionName);
 
     if (!isSubscription)
       await this.pubSubClient
         .topic(topicName)
-        .createSubscription(subscriptionName);
+        .createSubscription(subscriptionName);*/
 
     const subscription = this.pubSubClient.subscription(subscriptionName);
 

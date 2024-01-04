@@ -1,5 +1,5 @@
-import { IEventService } from "../../domain/services/event.service";
-import { UseCase } from "../../domain/use-cases/use.case";
+import { IEventService } from "@/module/domain/services/event.service";
+import { UseCase } from "@/module/domain/use-cases/use.case";
 
 export class ExampleUseCase extends UseCase<any, string> {
   constructor(private eventService: IEventService) {

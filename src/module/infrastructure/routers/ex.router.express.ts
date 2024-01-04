@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import { IRouters } from "../../domain/routers/routers";
-import { ExampleController } from "../controllers/ex.controller";
+import { IRouters } from "@/module/domain/routers/routers";
+import { ExampleController } from "@/module/infrastructure/controllers/ex.controller";
 
 export class ExampleRouterExpress implements IRouters<Router> {
   private router: Router;

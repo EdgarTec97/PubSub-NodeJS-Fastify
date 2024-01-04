@@ -4,7 +4,9 @@
   "description": "NodeJS Project Using PubSub GCP",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.ts --exec ts-node",
+    "dev": "nodemon -r tsconfig-paths/register src/index.ts --exec ts-node",
+    "start": "yarn build && node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/index.js",
+    "build": "tsc",
     "test": "jest"
   },
   "author": "Edgar Castillo Vega",
@@ -15,7 +17,8 @@
     "@google-cloud/pubsub": "^2.19.4",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "fastify": "^3.29.0"
+    "fastify": "^3.29.0",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

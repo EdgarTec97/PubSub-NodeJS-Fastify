@@ -1,6 +1,6 @@
-import { IEventBus } from "../../domain/event-bus/event.bus";
-import { IEventService } from "../../domain/services/event.service";
-import config from "../config/config";
+import { IEventBus } from "@/module/domain/event-bus/event.bus";
+import { IEventService } from "@/module/domain/services/event.service";
+import config from "@/module/infrastructure/config/config";
 
 export class ProducerService implements IEventService {
   constructor(private readonly eventBus: IEventBus) {}

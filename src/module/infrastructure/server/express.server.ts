@@ -1,6 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from "express";
-import { IServer } from "../../domain/server/server";
-import { ExampleRouterExpress } from "../routers/ex.router.express";
+import { IServer } from "@/module/domain/server/server";
+import { ExampleRouterExpress } from "@/module/infrastructure/routers/ex.router.express";
 
 export class ExpressServer implements IServer {
   private app: Application;

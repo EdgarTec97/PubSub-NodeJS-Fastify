@@ -1,7 +1,7 @@
 import Fastify, { FastifyInstance } from "fastify";
-import { IServer } from "../../domain/server/server";
-import swagger from "../open-api/swagger.api";
-import { ExampleRouterFastify } from "../routers/ex.router.fastify";
+import { IServer } from "@/module/domain/server/server";
+import { ExampleRouterFastify } from "@/module/infrastructure/routers/ex.router.fastify";
+import swagger from "@/module/infrastructure/open-api/swagger.api";
 
 export class FastifyServer implements IServer {
   private app: FastifyInstance;
